@@ -103,27 +103,18 @@ int main(int argc, char *argv[]){
                     SIGNAL = "SIGTERM";
                     STATUS = "terminated";
                 }
-				else if (WTERMSIG(EXIT_STATUS) == 19){
-					SIGNAL = "SIGSTOP";
-                    STATUS = "stopped";
-				}
                 printf("child process get %s signal\n", SIGNAL);
                 printf("child process is %s \n", STATUS);
             }
-			// for stopped signals
-            // else if (WIFSTOPPED(EXIT_STATUS)){
-            //     char *SIGNAL, *STATUS;
-            //     if (WSTOPSIG(EXIT_STATUS) == 19){
-            //         SIGNAL = "SIGSTOP";
-            //         STATUS = "stopped";
-            //     }
-            //     printf("child process get %s signal\n", SIGNAL);
-            //     printf("child process %s\n", STATUS);
-            //     printf("CHILD PROCESS STOPPED\n");
-            // }
-			//if there is no valid signal returned
-            else{
-                printf("CHILD PROCESS CONTINUED\n");
+            else if (WIFSTOPPED(EXIT_STATUS)){
+                char *SIGNAL, *STATUS;
+                if (WSTOPSIG(EXIT_STATUS) == 19){
+                    SIGNAL = "SIGSTOP";
+                    STATUS = "stopped";
+                }
+                printf("child process get %s signal\n", SIGNAL);
+                printf("child process %s\n", STATUS);
+                printf("CHILD PROCESS STOPPED\n");
             }
         }
     }	
